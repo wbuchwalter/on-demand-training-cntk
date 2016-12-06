@@ -1,0 +1,183 @@
+{  
+  "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion":"1.0.0.0",
+  "parameters":{  
+    "adminUserName":{  
+      "defaultValue":"agent",
+      "type":"string"
+    },
+    "adminPassword":{  
+      "type":"securestring"
+    },
+    "vmSize":{  
+      "defaultValue":"Standard_NC6",
+      "type":"string"
+    },
+    "vmName":{  
+      "defaultValue":"trainingVM",
+      "type":"string"
+    },
+    "nicName":{  
+      "defaultValue":"training560",
+      "type":"String"
+    },
+    "nsgName":{  
+      "defaultValue":"training-nsg",
+      "type":"String"
+    },
+    "publicIPName":{  
+      "defaultValue":"training-ip",
+      "type":"String"
+    },
+    "vnetName":{  
+      "defaultValue":"training-vnet",
+      "type":"String"
+    }
+  },
+  "variables":{  
+
+  },
+  "resources":[  
+    {  
+      "location":"southcentralus",
+      "type":"Microsoft.Compute/virtualMachines",
+      "name":"[parameters('vmName')]",
+      "apiVersion":"2016-03-30",
+      "properties":{  
+        "osProfile":{  
+          "adminUsername":"[parameters('adminUsername')]",
+          "computerName":"[parameters('vmName')]",
+          "adminPassword":"[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "osDisk": {
+            "name": "wibuch-osDisk.6644dd5c-389f-4eae-8582-0d22106d1964.vhd", 
+            "image": {
+              "uri": "https://gpuvmtemplatedisks530.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/wibuch-osDisk.6644dd5c-389f-4eae-8582-0d22106d1964.vhd"
+            }, 
+            "osType": "Linux", 
+            "createOption": "FromImage", 
+            "caching": "ReadWrite", 
+            "vhd": {
+              "uri": "https://gpuvmtemplatedisks530.blob.core.windows.net/vmcontainerdbf75bc6-7147-4a68-8499-22b6d56ed3a3/osDisk.dbf75bc6-7147-4a68-8499-22b6d56ed3a3.vhd"
+            }
+          }
+        },
+        "diagnosticsProfile":{  
+          "bootDiagnostics":{  
+            "storageUri":"https://trainingdiag206.blob.core.windows.net/",
+            "enabled":true
+          }
+        },
+        "hardwareProfile":{  
+          "vmSize":"[parameters('vmSize')]"
+        },
+        "networkProfile":{  
+          "networkInterfaces":[  
+            {  
+              "id":"[resourceId('Microsoft.Network/networkInterfaces', parameters('nicName'))]"
+            }
+          ]
+        },
+        "provisioningState":0
+      },
+      "dependsOn":[  
+        "[resourceId('Microsoft.Network/networkInterfaces', parameters('nicName'))]"
+      ]
+    },
+    {  
+      "type":"Microsoft.Network/networkInterfaces",
+      "name":"[parameters('nicName')]",
+      "apiVersion":"2016-03-30",
+      "location":"southcentralus",
+      "properties":{  
+        "ipConfigurations":[  
+          {  
+            "name":"ipconfig1",
+            "properties":{  
+              "privateIPAddress":"10.0.0.4",
+              "privateIPAllocationMethod":"Dynamic",
+              "publicIPAddress":{  
+                "id":"[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]"
+              },
+              "subnet":{  
+                "id":"[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/default')]"
+              }
+            }
+          }
+        ],
+        "dnsSettings":{  
+          "dnsServers":[  
+
+          ]
+        },
+        "enableIPForwarding":false,
+        "networkSecurityGroup":{  
+          "id":"[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]"
+        }
+      },
+      "resources":[  
+
+      ],
+      "dependsOn":[  
+        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]"
+      ]
+    },
+    {  
+      "type":"Microsoft.Network/networkSecurityGroups",
+      "name":"[parameters('nsgName')]",
+      "apiVersion":"2016-03-30",
+      "location":"southcentralus",
+      "properties":{  
+        "securityRules":[  
+          {  
+            "name":"default-allow-ssh",
+            "properties":{  
+              "protocol":"TCP",
+              "sourcePortRange":"*",
+              "destinationPortRange":"22",
+              "sourceAddressPrefix":"*",
+              "destinationAddressPrefix":"*",
+              "access":"Allow",
+              "priority":1000,
+              "direction":"Inbound"
+            }
+          }
+        ]
+      }
+    },
+    {  
+      "type":"Microsoft.Network/publicIPAddresses",
+      "name":"[parameters('publicIPName')]",
+      "apiVersion":"2016-03-30",
+      "location":"southcentralus",
+      "properties":{  
+        "publicIPAllocationMethod":"Dynamic",
+        "idleTimeoutInMinutes":4
+      }
+    },
+    {  
+      "type":"Microsoft.Network/virtualNetworks",
+      "name":"[parameters('vnetName')]",
+      "apiVersion":"2016-03-30",
+      "location":"southcentralus",
+      "properties":{  
+        "addressSpace":{  
+          "addressPrefixes":[  
+            "10.0.0.0/24"
+          ]
+        },
+        "subnets":[  
+          {  
+            "name":"default",
+            "properties":{  
+              "addressPrefix":"10.0.0.0/24"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
