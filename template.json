@@ -178,6 +178,32 @@
           }
         ]
       }
+    },
+    {
+      "name": "install-tools",
+      "type": "extensions",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(variables('vmName'),copyindex()))]"
+      ],
+      "tags": {
+        "displayName": "install-tools"
+      },
+      "properties": {
+        "publisher": "Microsoft.Azure.Extensions",
+        "type": "CustomScript",
+        "typeHandlerVersion": "2.0",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/wbuchwalter/continuous-training-vsts/master/install-tools.sh"
+          ]              
+        },
+        "protectedSettings": {
+          "commandToExecute": "sh hello.sh <password>"
+        }
+      }
     }
   ]
 }
