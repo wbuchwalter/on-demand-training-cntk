@@ -58,15 +58,9 @@
             "osType": "Linux", 
             "createOption": "FromImage", 
             "caching": "ReadWrite", 
-            "vhd": {
-              "uri": "https://gpuvmtemplatedisks530.blob.core.windows.net/vmcontainerdbf75bc6-7147-4a68-8499-22b6d56ed3a3/osDisk.dbf75bc6-7147-4a68-8499-22b6d56ed3a3.vhd"
+            "vhd": {             
+              "uri": "[concat('https://gpuvmtemplatedisks530.blob.core.windows.net/vmcontainer/', resourceGroup().name, '-osdisk.vhd')]"
             }
-          }
-        },
-        "diagnosticsProfile":{  
-          "bootDiagnostics":{  
-            "storageUri":"https://trainingdiag206.blob.core.windows.net/",
-            "enabled":true
           }
         },
         "hardwareProfile":{  
@@ -180,12 +174,12 @@
       }
     },
     {
-      "name": "install-tools",
-      "type": "extensions",
+      "name": "[concat(parameters('vmName'),'/install-tools')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(variables('vmName'),copyindex()))]"
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
       ],
       "tags": {
         "displayName": "install-tools"
@@ -201,7 +195,7 @@
           ]              
         },
         "protectedSettings": {
-          "commandToExecute": "sh hello.sh <password>"
+          "commandToExecute": "sh install-tools.sh"
         }
       }
     }
