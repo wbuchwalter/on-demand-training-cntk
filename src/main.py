@@ -103,6 +103,12 @@ def print_training_progress(trainer, mb, frequency, verbose=1):
         
     return mb, training_loss, eval_error
 
+def save_metrics(trainer, filename):
+    training_loss = get_train_loss(trainer)
+    eval_error = get_train_eval_criterion(trainer)
+    f = open(filename, 'w')
+    f.write("Loss: {0:.4f}, Error: {1:.2f}%".format(training_loss, eval_error*100))
+
 # Initialize the parameters for the trainer
 minibatch_size = 64
 num_samples_per_sweep = 60000
@@ -127,3 +133,6 @@ for i in range(0, int(num_minibatches_to_train)):
         plotdata["batchsize"].append(batchsize)
         plotdata["loss"].append(loss)
         plotdata["error"].append(error)
+
+trainer.save_checkpoint('model')
+save_metrics(trainer, 'metrics.txt')
