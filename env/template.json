@@ -191,11 +191,37 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/wbuchwalter/continuous-training-vsts/master/install-tools.sh"
+            "https://raw.githubusercontent.com/wbuchwalter/on-demand-training-vsts/master/env/install-tools.sh"
           ]              
         },
         "protectedSettings": {
           "commandToExecute": "sh install-tools.sh"
+        }
+      }
+    },
+    {
+      "name": "[concat(parameters('vmName'),'/run-training')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/extensions/', [concat(parameters('vmName'),'/install-tools')])]"
+      ],
+      "tags": {
+        "displayName": "run-training"
+      },
+      "properties": {
+        "publisher": "Microsoft.Azure.Extensions",
+        "type": "CustomScript",
+        "typeHandlerVersion": "2.0",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/wbuchwalter/on-demand-training-vsts/master/env/run-training.sh"
+          ]              
+        },
+        "protectedSettings": {
+          "commandToExecute": "sh run-training.sh parameters('commitId')"
         }
       }
     }

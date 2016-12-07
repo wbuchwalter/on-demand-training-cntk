@@ -62,22 +62,6 @@ def try_download(dataSrc, labelsSrc, cimg):
     labels = loadLabels(labelsSrc, cimg)
     return np.hstack((data, labels))
 
-# URLs for the train image and labels data
-url_train_image = 'http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz'
-url_train_labels = 'http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz'
-num_train_samples = 60000
-
-print("Downloading train data")
-train = try_download(url_train_image, url_train_labels, num_train_samples)
-
-
-url_test_image = 'http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz'
-url_test_labels = 'http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz'
-num_test_samples = 10000
-
-print("Downloading test data")
-test = try_download(url_test_image, url_test_labels, num_test_samples)
-
 def savetxt(filename, ndarray):
     dir = os.path.dirname(filename)
     
@@ -96,11 +80,29 @@ def savetxt(filename, ndarray):
     else:
         print("File already exists", filename)
 
-# Save the train and test files
-print ('Writing train text file...')
-savetxt(r'data/MNIST/Train-28x28_cntk_text.txt', train)
 
-print ('Writing test text file...')
-savetxt(r'data/MNIST/Test-28x28_cntk_text.txt', test)
+def load():
+    # URLs for the train image and labels data
+    url_train_image = 'http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz'
+    url_train_labels = 'http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz'
+    num_train_samples = 60000
 
-print('Done')
+    print("Downloading train data")
+    train = try_download(url_train_image, url_train_labels, num_train_samples)
+
+
+    url_test_image = 'http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz'
+    url_test_labels = 'http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz'
+    num_test_samples = 10000
+
+    print("Downloading test data")
+    test = try_download(url_test_image, url_test_labels, num_test_samples)
+
+    # Save the train and test files
+    print ('Writing train text file...')
+    savetxt(r'data/MNIST/Train-28x28_cntk_text.txt', train)
+
+    print ('Writing test text file...')
+    savetxt(r'data/MNIST/Test-28x28_cntk_text.txt', test)
+
+    print('Done')

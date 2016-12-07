@@ -11,11 +11,15 @@ from cntk.learner import sgd
 from cntk.ops import *
 from cntk.utils import get_train_eval_criterion, get_train_loss
 
+import dataloader
+
 image_size = 28
 input_dim = image_size * image_size
 num_output_classes = 10
 num_hidden_layers = 2
 hidden_layers_dim = 400
+
+dataloader.load()
 
 train_file = "data/MNIST/Train-28x28_cntk_text.txt"
 
@@ -134,5 +138,6 @@ for i in range(0, int(num_minibatches_to_train)):
         plotdata["loss"].append(loss)
         plotdata["error"].append(error)
 
-trainer.save_checkpoint('model')
-save_metrics(trainer, 'metrics.txt')
+trainer.save_checkpoint("/code/output/model")
+
+save_metrics(trainer, '/code/output/metrics.txt')
