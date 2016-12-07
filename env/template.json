@@ -203,38 +203,12 @@
       }
     },
     {
-      "name": "[concat(parameters('vmName'),'/docker-build')]",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2015-06-15",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/extensions/', [concat(parameters('vmName'),'/install-tools')])]"
-      ],
-      "tags": {
-        "displayName": "docker-build"
-      },
-      "properties": {
-        "publisher": "Microsoft.Azure.Extensions",
-        "type": "CustomScript",
-        "typeHandlerVersion": "2.0",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "fileUris": [
-            "https://raw.githubusercontent.com/wbuchwalter/on-demand-training-vsts/master/env/docker-build.sh"
-          ]              
-        },
-        "protectedSettings": {
-          "commandToExecute": "sh docker-build.sh"
-        }
-      }
-    },
-    {
       "name": "[concat(parameters('vmName'),'/run-training')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/extensions/', [concat(parameters('vmName'),'/docker-build')])]"
+        "[concat('Microsoft.Compute/virtualMachines/extensions/', [concat(parameters('vmName'),'/install-tools')])]"
       ],
       "tags": {
         "displayName": "run-training"
