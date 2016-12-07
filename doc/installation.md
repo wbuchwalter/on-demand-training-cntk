@@ -42,6 +42,8 @@ sudo wget -P /tools http://us.download.nvidia.com/XFree86/Linux-x86_64/375.20/NV
 sudo wget -P /tools https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.0-rc.3/nvidia-docker_1.0.0.rc.3-1_amd64.deb
 ```
 
+The driver and nvidia-docker will be installed automatically when the VM is created through a custom extensions.
+
 ### Capture the VM
 
 Follow Step 1 and 2 of [Capture a Linux virtual machine running on Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-linux-capture-image?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
@@ -64,9 +66,6 @@ Let's deploy our template in our new group:
 
 SSH into the newly created VM (you can find the public IP in the portal):
 `ssh agent@xx.xx.xx.xx`
-
-Run the script that will install the NVIDIA driver and `nvidia-docker` (`install-tools.sh`):
-`curl -L <UPDATE-URL> | bash`
 
 Test that everything is running correctly:
 `sudo nvidia-docker run --rm nvidia/cuda nvidia-smi`
