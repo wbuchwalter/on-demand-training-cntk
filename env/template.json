@@ -32,6 +32,9 @@
     "vnetName":{  
       "defaultValue":"training-vnet",
       "type":"String"
+    },
+    "commitId":{
+      "type": "String"
     }
   },
   "variables":{  
