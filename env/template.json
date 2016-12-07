@@ -177,7 +177,7 @@
       }
     },
     {
-      "name": "[concat(parameters('vmName'),'/install-tools')]",
+      "name": "[concat(parameters('vmName'),'/extension')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -185,7 +185,7 @@
         "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
       ],
       "tags": {
-        "displayName": "install-tools"
+        "displayName": "extension"
       },
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",
@@ -194,37 +194,11 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/wbuchwalter/on-demand-training-vsts/master/env/install-tools.sh"
+            "https://raw.githubusercontent.com/wbuchwalter/on-demand-training-vsts/master/env/extension.sh"
           ]              
         },
         "protectedSettings": {
-          "commandToExecute": "sh install-tools.sh"
-        }
-      }
-    },
-    {
-      "name": "[concat(parameters('vmName'),'/run-training')]",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2015-06-15",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/extensions/', [concat(parameters('vmName'),'/install-tools')])]"
-      ],
-      "tags": {
-        "displayName": "run-training"
-      },
-      "properties": {
-        "publisher": "Microsoft.Azure.Extensions",
-        "type": "CustomScript",
-        "typeHandlerVersion": "2.0",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "fileUris": [
-            "https://raw.githubusercontent.com/wbuchwalter/on-demand-training-vsts/master/env/run-training.sh"
-          ]              
-        },
-        "protectedSettings": {
-          "commandToExecute": "sh run-training.sh parameters('commitId')"
+          "commandToExecute": "sh extension.sh"
         }
       }
     }
