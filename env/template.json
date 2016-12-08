@@ -30,6 +30,10 @@
       "defaultValue":"training-ip",
       "type":"String"
     },
+    "dnsLabelPrefix":{
+      "defaultValue": "wibuch",
+      "type": "String"
+    },
     "vnetName":{  
       "defaultValue":"training-vnet",
       "type":"String"
@@ -143,16 +147,18 @@
         ]
       }
     },
-    {  
-      "type":"Microsoft.Network/publicIPAddresses",
-      "name":"[parameters('publicIPName')]",
-      "apiVersion":"2016-03-30",
-      "location":"southcentralus",
-      "properties":{  
-        "publicIPAllocationMethod":"Dynamic",
-        "idleTimeoutInMinutes":4
+    {
+      "apiVersion": "2016-09-01",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "parameters('publicIPName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+        }
       }
-    },
+    },    
     {  
       "type":"Microsoft.Network/virtualNetworks",
       "name":"[parameters('vnetName')]",
