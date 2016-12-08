@@ -32,9 +32,6 @@
     "vnetName":{  
       "defaultValue":"training-vnet",
       "type":"String"
-    },
-    "commitId":{
-      "type": "String"
     }
   },
   "variables":{  
@@ -179,7 +176,7 @@
   ],
  "outputs": {
     "masterip": {
-      "value": "[reference(parameters('publicIPName')).dnsSettings.fqdn]",
+      "value": "[reference(parameters('publicIPName')).id]",
       "type": "string"
     }
   } 
