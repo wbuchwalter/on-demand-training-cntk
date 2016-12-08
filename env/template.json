@@ -176,7 +176,7 @@
   ],
  "outputs": {
     "masterip": {
-      "value": "[reference(parameters('publicIPName')).id]",
+      "value": "[reference(parameters('publicIPName'))]",
       "type": "string"
     }
   } 
