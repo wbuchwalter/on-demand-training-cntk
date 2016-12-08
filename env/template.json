@@ -198,9 +198,15 @@
           ]              
         },
         "protectedSettings": {
-          "commandToExecute": "sh extension.sh"
+          "commandToExecute": "sudo sh extension.sh"
         }
       }
     }
-  ]
+  ],
+ "outputs": {
+    "masterip": {
+      "value": "[reference(parameters('publicIPName')).dnsSettings.fqdn]",
+      "type": "string"
+    }
+  } 
 }
