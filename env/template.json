@@ -175,32 +175,6 @@
           }
         ]
       }
-    },
-    {
-      "name": "[concat(parameters('vmName'),'/extension')]",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2015-06-15",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
-      ],
-      "tags": {
-        "displayName": "extension"
-      },
-      "properties": {
-        "publisher": "Microsoft.Azure.Extensions",
-        "type": "CustomScript",
-        "typeHandlerVersion": "2.0",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "fileUris": [
-            "https://raw.githubusercontent.com/wbuchwalter/on-demand-training-vsts/master/env/extension.sh"
-          ]              
-        },
-        "protectedSettings": {
-          "commandToExecute": "sudo sh extension.sh"
-        }
-      }
     }
   ],
  "outputs": {
