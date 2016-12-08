@@ -175,13 +175,14 @@
       }
     }
   ],
-  "outputs": {
+   "outputs": {
     "hostname": {
       "type": "string",
-      "value": "[reference(parameters('publicIPName')).dnsSettings.fqdn]"
+      "value": "[reference(variables('publicIPAddressName')).dnsSettings.fqdn]"
     },
     "sshCommand": {
       "type": "string",
-      "value": "[concat('ssh ', parameters('adminUserName'), '@', reference(parameters('publicIPName')).dnsSettings.fqdn)]"
+      "value": "[concat('ssh ', parameters('adminUsername'), '@', reference(variables('publicIPAddressName')).dnsSettings.fqdn)]"
+    }
   }
 }
