@@ -16,4 +16,4 @@ sudo docker build -t cntk-mnist . > build.txt
 sudo nvidia-docker run --rm -v=/home/agent/output:/code/output cntk-mnist > run.txt
 
 #Upload output to azure blob storage
-sudo docker run --rm -v=/home/agent/output:/output wbuchwalter/wbuchwalter:az
+sudo docker run --rm -v=/home/agent/output:/output wbuchwalter/wbuchwalter:az $1
