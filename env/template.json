@@ -6,7 +6,8 @@
       "defaultValue":"agent",
       "type":"string"
     },
-    "adminPassword":{  
+    "adminPassword":{
+      "defaultValue": "Bistro12345",
       "type":"securestring"
     },
     "vmSize":{  
