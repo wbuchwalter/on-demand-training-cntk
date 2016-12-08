@@ -30,10 +30,6 @@
       "defaultValue":"training-ip",
       "type":"String"
     },
-    "dnsLabelPrefix":{
-      "defaultValue": "wibuch",
-      "type": "String"
-    },
     "vnetName":{  
       "defaultValue":"training-vnet",
       "type":"String"
@@ -153,10 +149,7 @@
       "name": "[parameters('publicIPName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "publicIPAllocationMethod": "Dynamic",
-        "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
-        }
+        "publicIPAllocationMethod": "Dynamic"
       }
     },    
     {  
@@ -206,11 +199,5 @@
         }
       }
     }
-  ],
-   "outputs": {
-    "hostname": {
-      "type": "string",
-      "value": "[reference(parameters('publicIPName')).dnsSettings.fqdn]"
-    }
-  }
+  ]
 }
