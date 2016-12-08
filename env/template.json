@@ -202,7 +202,7 @@
           ]              
         },
         "protectedSettings": {
-          "commandToExecute": "sudo sh extension.sh"
+          "commandToExecute": "concat('sudo sh extension.sh ', [resourceGroup().id]]"
         }
       }
     }
