@@ -201,7 +201,7 @@
           ]              
         },
         "protectedSettings": {
-          "commandToExecute": "[concat('sudo sh extension.sh ', resourceGroup().id, parameters('dockerUsername'), parameters('dockerPassword')]"
+          "commandToExecute": "[concat('sudo sh extension.sh ', resourceGroup().id, parameters('dockerUsername'), parameters('dockerPassword'))]"
         }
       }
     }
