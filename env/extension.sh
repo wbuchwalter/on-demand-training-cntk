@@ -15,5 +15,6 @@ sudo docker build -t cntk-mnist .
 #Run the training, with a volume to save output
 sudo nvidia-docker run --rm -v=/home/agent/output:/code/output cntk-mnist
 
+docker login -u $2 -p $3
 #Upload output to azure blob storage
 sudo docker run --rm -v=/home/agent/output:/output wbuchwalter/wbuchwalter:az $1
