@@ -14,7 +14,7 @@
       "type":"String"
     },
     "dockerPassword":{
-      "type":"securestring"
+      "type":"String"
     },
     "vmSize":{  
       "defaultValue":"Standard_NC6",
