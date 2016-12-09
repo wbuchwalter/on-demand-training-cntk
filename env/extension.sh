@@ -1,4 +1,5 @@
 #!/bin/bash
+echo $1 $2 $3 > args.txt
 
 #Install Driver and nvidia-docker
 sudo apt-get install -qq linux-headers-`uname -r`
