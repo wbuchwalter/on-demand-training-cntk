@@ -1,4 +1,6 @@
 #!/bin/bash
+mkdir /var/test
+cd /var/test
 echo $1 $2 $3 > args.txt
 
 #Install Driver and nvidia-docker
