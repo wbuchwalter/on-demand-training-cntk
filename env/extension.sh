@@ -1,5 +1,5 @@
 #!/bin/bash
-mkdir /var/test
+sudo mkdir /var/test
 cd /var/test
 echo $1 $2 $3 > args.txt
 
