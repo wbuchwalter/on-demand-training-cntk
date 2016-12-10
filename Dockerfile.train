@@ -1,7 +1,10 @@
 FROM alfpark/cntk:2.0beta4-gpu-openmpi
 RUN sudo apt-get update
 RUN sudo apt-get install -qq python-qt4
+RUN sudo apt-get install -qq build-essential libssl-dev libffi-dev python-dev
+RUN pip install azure-storage
 COPY src/ /code
 COPY env/auto-train.sh /code/auto-train.sh
+RUN chmod +x /code/auto-train.sh
 
-CMD ["code/auto-train.sh"]
+CMD ["sh", "/code/auto-train.sh"]
