@@ -16,4 +16,5 @@ sudo touch 1.txt
 sudo docker build -f Dockerfile.train -t cntk-mnist .
 sudo touch 2.txt
 #Run the training, with a volume to save output
-sudo nvidia-docker run cntk-mnist
+sudo touch 3.txt
+sudo nvidia-docker run cntk-mnist > 3.txt
