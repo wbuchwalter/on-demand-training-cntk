@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sleep 10m
+
 #Install Driver and nvidia-docker
 sudo apt-get install -qq linux-headers-`uname -r`
 sudo chmod +x /tools/NVIDIA-Linux-x86_64-375.20.run
