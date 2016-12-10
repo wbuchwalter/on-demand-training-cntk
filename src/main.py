@@ -138,6 +138,5 @@ for i in range(0, int(num_minibatches_to_train)):
         plotdata["loss"].append(loss)
         plotdata["error"].append(error)
 
-trainer.save_checkpoint("/code/output/model")
-
-save_metrics(trainer, '/code/output/metrics.txt')
+trainer.save_checkpoint("../output/model")
+save_metrics(trainer, '../output/metrics.txt')

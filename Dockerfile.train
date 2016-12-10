@@ -1,0 +1,7 @@
+FROM alfpark/cntk:2.0beta4-gpu-openmpi
+RUN sudo apt-get update
+RUN sudo apt-get install -qq python-qt4
+COPY src/ /code
+COPY env/auto-train.sh /code/auto-train.sh
+
+CMD ["code/auto-train.sh"]
