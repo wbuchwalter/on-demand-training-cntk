@@ -13,4 +13,4 @@ cd on-demand-training-vsts
 sudo docker build -f Dockerfile.train -t cntk-mnist .
 
 #Run the training, with a volume to save output
-sudo nvidia-docker run --rm cntk-mnist
+sudo nvidia-docker run cntk-mnist
