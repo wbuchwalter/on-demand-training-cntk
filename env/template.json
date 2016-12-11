@@ -10,10 +10,7 @@
       "defaultValue": "Bistro12345",
       "type":"securestring"
     },
-    "dockerUsername":{
-      "type":"String"
-    },
-    "dockerPassword":{
+    "buildId":{
       "type":"String"
     },
     "vmSize":{  
@@ -201,7 +198,7 @@
           ]              
         },
         "protectedSettings": {
-          "commandToExecute": "[concat('sudo sh extension.sh ', resourceGroup().id, parameters('dockerUsername'), parameters('dockerPassword'))]"
+          "commandToExecute": "[concat('sudo sh extension.sh ', parameters('buildId'))]"
         }
       }
     }
