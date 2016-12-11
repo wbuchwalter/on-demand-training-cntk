@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sleep 10m
+sleep 5m
 
 #Install Driver and nvidia-docker
 sudo apt-get install -qq linux-headers-`uname -r`
