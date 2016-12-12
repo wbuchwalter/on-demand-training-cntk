@@ -12,5 +12,5 @@ files = os.listdir(ouputPath)
 for file in files:
   blob_service.create_blob_from_path(
       'output',
-      str(file+buildId),
+      str(buildId+'-'+file),
       os.path.join(ouputPath, file))
