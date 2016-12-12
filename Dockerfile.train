@@ -7,4 +7,4 @@ COPY src/ /code
 COPY env/auto-train.sh /code/auto-train.sh
 RUN chmod +x /code/auto-train.sh
 
-CMD ["sh", "/code/auto-train.sh"]
+ENTRYPOINT ["sh", "/code/auto-train.sh"]
