@@ -1,6 +1,7 @@
 from azure.storage.blob import BlockBlobService
 from azure.storage.blob import ContentSettings
 import os
+import sys
 
 buildId = sys.argv[1]
 blob_service = BlockBlobService(account_name='gpuvmtemplatedisks530', account_key='9aSfzJqvoasgkzMod9qNJGDabjtSUbibZjjvsnvHaYMatASwF/y9kH2nbTAOKnLb7bLWjdIJUdwzXhTCvO2L/g==')
