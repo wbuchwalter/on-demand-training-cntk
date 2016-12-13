@@ -1,6 +1,6 @@
 ## On-demand training of a CNTK model on Azure N-Series using VSTS
 
-This example shows how training a CNTK (or many other frameworks) model can be automated through azure and VSTS.   
+This example shows how training a CNTK (or many other frameworks) model can be automated through azure and VSTS.  
 We want to be able to start a new training in one click, and once the training is done, access some key metrics (accuracy, loss etc.) and CNTK's checkpoints file:
 
 #### *Queuing a new training*  
@@ -23,6 +23,8 @@ We want to be able to start a new training in one click, and once the training i
 
 ### Getting Started
 
-1. [Creating a custom VM image](/doc/custom-image.md).
+1. Clone this repository
+1. [Create a custom VM image](/doc/custom-image.md).
+
 
 
