@@ -29,18 +29,15 @@ sudo apt-get install docker-engine
 sudo service docker start
 ```
 
-Azure CLI (if you encounter an issue, refere to [the installation doc instead](https://github.com/NVIDIA/nvidia-docker#quick-start)):
-```
-curl -L https://aka.ms/InstallAzureCli | bash
-az login
-```
-
-(optional) Pre-pull heavy docker images (CNTK in my case), so you don't have to pull everytime:
+__Optional__  
+Pre-pull heavy docker images.  
+CNTK's docker images is quite heavy so pulling it can be relatively long. By pulling it now, we will save a lot of time every time we re-deploy.
+Note that the [official CNTK image](https://hub.docker.com/r/microsoft/cntk/tags/) is currently outdated, so we are using another one in the mean time.
 ```bash
 sudo docker pull alfpark/cntk:2.0beta4-gpu-openmpi
 ```
-
-Pre-download NVIDIA drivers and nvidia-docker package, but don't install them yet (otherwise there will be issues with the generalized image):
+__NVIDIA Driver & nvidia-docker__  
+Download NVIDIA drivers and nvidia-docker package, but don't install them yet (otherwise there will be issues with the generalized image):
 ```
 sudo mkdir /tools
 sudo wget -P /tools http://us.download.nvidia.com/XFree86/Linux-x86_64/375.20/NVIDIA-Linux-x86_64-375.20.run
