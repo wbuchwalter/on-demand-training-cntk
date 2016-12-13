@@ -13,6 +13,6 @@ This example shows how training a CNTK (or many other frameworks) model can be a
 
 ### Getting Started
 
-1. [Creating a custom VM image](/doc/installation.dm).
+1. [Creating a custom VM image](/doc/custom-image.md).
 
 
