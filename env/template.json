@@ -38,8 +38,9 @@
       "type":"String"
     }
   },
-  "variables":{  
-
+  "variables":{
+    "location": "[resourceGroup().location]",
+    "nicName": "nic"
   },
   "resources":[  
     {  
