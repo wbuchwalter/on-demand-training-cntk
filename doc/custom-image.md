@@ -54,8 +54,7 @@ If you are using the new Azure CLI (`az`), just replace `azure` by `az`, the com
 
 ### Update ARM template
 
-In the ARM template (`template.json`), replace the `storageProfile` section from the virtual machine resource by the one outputed by the `az vm capture` command.
-
+In the ARM template ([`template.json`](https://github.com/wbuchwalter/on-demand-training-cntk/blob/master/env/template.json)), replace the `storageProfile` section from the virtual machine resource by the one outputed by the `az vm capture` command. This storage profile is where the VHD from the captured VM is stored.
 
 ### Create a new VM
 
