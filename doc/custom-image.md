@@ -54,26 +54,26 @@ If you are using the new Azure CLI (`az`), just replace `azure` by `az`, the com
 
 ### Update ARM template
 
-In the ARM template (`template.json`), replace the `storageProfile` from the virtual machine resource by the one outputed by the `az vm capture` command.
+In the ARM template (`template.json`), replace the `storageProfile` section from the virtual machine resource by the one outputed by the `az vm capture` command.
 
 
 ### Create a new VM
 
 To make sure everything is working fine, we are going to create a new VM based on our captured image
 
-Start by creating a new resource group (if you choose a different location, make sure it offers N-Series)
+Start by creating a new resource group (if you choose a different location, make sure it offers N-Series)  
 `az resource group create -l southcentralus -n <group-name>`
 
-Let's deploy our template in our new group:
+Let's deploy our template in our new group  
 `az resource group deployment create -g <group-name> --template-file template.json --parameters "{\"adminPassword\": {\"value\": \"<password>\"}}"`
 
-SSH into the newly created VM (you can find the public IP in the portal):
+SSH into the newly created VM (you can find the public IP in the portal)  
 `ssh agent@xx.xx.xx.xx`
 
-Test that everything is running correctly:
+Test that everything is running correctly  
 `sudo nvidia-docker run --rm nvidia/cuda nvidia-smi`
 
-That should display some information on your GPU from inside a docker container:
+That should display some information on your GPU from inside a docker container  
 ```
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 375.20                 Driver Version: 375.20                    |
@@ -87,5 +87,5 @@ That should display some information on your GPU from inside a docker container:
 ```
 
 
-### Cleaning up
+### Cleaning up  
 You can now delete everything in your original resource group that was used to capture the VM **except** the storage account, since that's where the VHD is stored.
