@@ -1,19 +1,24 @@
-## Create a template image
-base: Ubuntu 16.04 LTS
+First we will need to create a custom VM image. This will allow our future deployments to be much faster by not having to download and install every component every time.
+
+### Create a template image
+Create a new VM, here are the important parameters:
+
+Base Image: Ubuntu 16.04 LTS
 Disk: HDD (you can't access the new N-Series if using SSD for the time being)
+Location: South Central US, or other regions supporting N-seires
 Size: NC* or NV*
 
 ### Install prerequisites on the VM
 
-Basics
+__Basics__
 ```bash
 sudo apt-get update
 sudo apt-get install gcc
 sudo apt-get install make
 ``` 
 
-docker
-If you use a different version of Ubuntu, check the official documentation instead.
+__Docker__  
+If you use a different version of Ubuntu, check the [official documentation](https://docs.docker.com/engine/installation/) instead.
 ```
 sudo apt-get install apt-transport-https ca-certificates
 sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
