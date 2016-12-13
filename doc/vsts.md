@@ -10,7 +10,8 @@ Just change the remote url (with `git remote set url origin <repo-url>`) or add 
 
 ### Create a new build definition 
 A build definition describes the logical steps we want to automate.  
-Click on `Builds & Release > Builds > + New`
+Click on `Builds & Release > Builds > + New`  
+
 1. Choose an empty build definition.
 1. Choose the repository source
 1. Don't check Continuous Integration (unless you are rich and want to spin up a GPU VM every time there is new commit)
