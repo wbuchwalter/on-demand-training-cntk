@@ -46,8 +46,9 @@ sudo wget -P /tools https://github.com/NVIDIA/nvidia-docker/releases/download/v1
 
 The driver and nvidia-docker will be installed automatically when the VM is created through a custom extensions.
 
-### Capture the VM
+### Capture the Virtual Machine
 
+Our VM is ready to be captured and reused.  
 Follow Step 1 and 2 of [Capture a Linux virtual machine running on Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-linux-capture-image?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
 If you are using the new Azure CLI (`az`), just replace `azure` by `az`, the commands are mostly the same.
 
