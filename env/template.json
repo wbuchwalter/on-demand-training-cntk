@@ -194,7 +194,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/wbuchwalter/on-demand-training-vsts/master/env/extension.sh"
+            "https://raw.githubusercontent.com/wbuchwalter/on-demand-training-cntk/master/env/extension.sh"
           ]              
         },
         "protectedSettings": {
