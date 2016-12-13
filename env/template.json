@@ -16,42 +16,26 @@
     "vmSize":{  
       "defaultValue":"Standard_NC6",
       "type":"string"
-    },
-    "vmName":{  
-      "defaultValue":"trainingVM",
-      "type":"string"
-    },
-    "nicName":{  
-      "defaultValue":"training560",
-      "type":"String"
-    },
-    "nsgName":{  
-      "defaultValue":"training-nsg",
-      "type":"String"
-    },
-    "publicIPName":{  
-      "defaultValue":"training-ip",
-      "type":"String"
-    },
-    "vnetName":{  
-      "defaultValue":"training-vnet",
-      "type":"String"
     }
   },
   "variables":{
     "location": "[resourceGroup().location]",
-    "nicName": "nic"
+    "nicName": "nic",
+    "nsgName": "nsg",
+    "publicIPName": "publicIP",
+    "vnetName": "vnet",
+    "vmName": "vm"
   },
   "resources":[  
     {  
-      "location":"southcentralus",
+      "location":"[variables('location')]",
       "type":"Microsoft.Compute/virtualMachines",
-      "name":"[parameters('vmName')]",
+      "name":"[variables('vmName')]",
       "apiVersion":"2016-03-30",
       "properties":{  
         "osProfile":{  
           "adminUsername":"[parameters('adminUsername')]",
-          "computerName":"[parameters('vmName')]",
+          "computerName":"[variables('vmName')]",
           "adminPassword":"[parameters('adminPassword')]"
         },
         "storageProfile": {
@@ -74,21 +58,21 @@
         "networkProfile":{  
           "networkInterfaces":[  
             {  
-              "id":"[resourceId('Microsoft.Network/networkInterfaces', parameters('nicName'))]"
+              "id":"[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             }
           ]
         },
         "provisioningState":0
       },
       "dependsOn":[  
-        "[resourceId('Microsoft.Network/networkInterfaces', parameters('nicName'))]"
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
       ]
     },
     {  
       "type":"Microsoft.Network/networkInterfaces",
-      "name":"[parameters('nicName')]",
+      "name":"[variables('nicName')]",
       "apiVersion":"2016-03-30",
-      "location":"southcentralus",
+      "location":"[variables('location')]",
       "properties":{  
         "ipConfigurations":[  
           {  
@@ -97,10 +81,10 @@
               "privateIPAddress":"10.0.0.4",
               "privateIPAllocationMethod":"Dynamic",
               "publicIPAddress":{  
-                "id":"[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]"
+                "id":"[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPName'))]"
               },
               "subnet":{  
-                "id":"[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/default')]"
+                "id":"[concat(resourceId('Microsoft.Network/virtualNetworks', variables('vnetName')), '/subnets/default')]"
               }
             }
           }
@@ -112,23 +96,23 @@
         },
         "enableIPForwarding":false,
         "networkSecurityGroup":{  
-          "id":"[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]"
+          "id":"[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
         }
       },
       "resources":[  
 
       ],
       "dependsOn":[  
-        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
-        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]"
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPName'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
       ]
     },
     {  
       "type":"Microsoft.Network/networkSecurityGroups",
-      "name":"[parameters('nsgName')]",
+      "name":"[variables('nsgName')]",
       "apiVersion":"2016-03-30",
-      "location":"southcentralus",
+      "location":"[variables('location')]",
       "properties":{  
         "securityRules":[  
           {  
@@ -150,7 +134,7 @@
     {
       "apiVersion": "2016-09-01",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[parameters('publicIPName')]",
+      "name": "[variables('publicIPName')]",
       "location": "[resourceGroup().location]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic"
@@ -158,9 +142,9 @@
     },    
     {  
       "type":"Microsoft.Network/virtualNetworks",
-      "name":"[parameters('vnetName')]",
+      "name":"[variables('vnetName')]",
       "apiVersion":"2016-03-30",
-      "location":"southcentralus",
+      "location":"[variables('location')]",
       "properties":{  
         "addressSpace":{  
           "addressPrefixes":[  
@@ -178,12 +162,12 @@
       }
     },
     {
-      "name": "[concat(parameters('vmName'),'/extension')]",
+      "name": "[concat(variables('vmName'),'/extension')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
       ],
       "tags": {
         "displayName": "extension"
