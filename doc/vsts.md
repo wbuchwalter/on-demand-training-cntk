@@ -22,7 +22,9 @@ Here is what the build definition will look like:
 
 ### Provision and Train    
 
-In this step we want to create a new resource group based on our ARM template and captured VM image. The ARM template contains a custom extension which will call our [extension.sh script](https://github.com/wbuchwalter/on-demand-training-cntk/blob/master/env/extension.sh). This script will install some dependencies, build a docker image, train our model, and upload the result to azure blob storage.
+In this step we want to create a new resource group based on our ARM template and captured VM image.  
+The ARM template contains a custom extension which will call our [extension.sh script](https://github.com/wbuchwalter/on-demand-training-cntk/blob/master/env/extension.sh). This script will clone the repo, install some dependencies, build a docker image, train our model, and upload the result to azure blob storage.  
+You need to modify the script by changing the `git clone` command to use your repo's url. The repo url could also be passed as an ARM parameter instead.  
 Create a new step *Azure Resource Group Deployment*. Set `Training-$(Build.BuildId)` as resrouce group name, this will allow to have multiple training in parallel. Choose a location with access to N-Series (South Central US for example). The template should be `env/template.json`, and override the template parameters with `-buildId $(Build.BuildId)`.
 
 
