@@ -91,4 +91,4 @@ You can now delete everything in your original resource group that was used to c
 
 ### Creating a new container
 We will need an Azure Blob storage container to store the outputs from the trainings (metrics, model checkpoint etc.), you can simply create a new container in the same storage account as your VM VHD.  
-
+Name the container `output`, of type `blob`.
