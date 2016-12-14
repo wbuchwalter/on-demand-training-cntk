@@ -1,8 +1,10 @@
 #!/bin/bash
 
+#dpkg is locked when the VM startups, se we have to wait a bit before executing our scrip
+#see https://github.com/Azure/custom-script-extension-linux/issues/82 for more info.
 sleep 5m
 
-#Install Driver and nvidia-docker
+#Install NVIDIA driver and nvidia-docker that were pre-downloaded during our VM capture
 apt-get install -qq linux-headers-`uname -r`
 chmod +x /tools/NVIDIA-Linux-x86_64-375.20.run
 sh /tools/NVIDIA-Linux-x86_64-375.20.run -a -s
@@ -15,5 +17,5 @@ cd on-demand-training-vsts
 
 sudo docker build -f Dockerfile.train -t cntk-mnist .
 
-#Run the training, with a volume to save output
+#Run the training, the parameter we pass is coming from the ARM template and is the BuildId
 sudo nvidia-docker run cntk-mnist $1
