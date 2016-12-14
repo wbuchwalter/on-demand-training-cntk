@@ -17,5 +17,10 @@ Click on `Builds & Release > Builds > + New`
 1. Don't check Continuous Integration (unless you are rich and want to spin up a GPU VM every time there is new commit)
 1. If your repository is hosted on Github, go to the *Repository* tab, grand acces to your Github account, and choose your repository. If your code is hosted on VSTS you shouldn't need to change anything.
 
-Here is what the build definition will look like:
+Here is what the build definition will look like:  
 ![](/doc/images/04.png)
+
+1. __Provision and Train__: In this step we want to create a new resource group based on our ARM template and captured VM image. The ARM template contains a custom extension which will call our [extension.sh script](https://github.com/wbuchwalter/on-demand-training-cntk/blob/master/env/extension.sh). This script will install some dependencies, build a docker image, train our model, and upload the result to azure blob storage.
+1. __Download Artifacts__:
+1. __Publish Artifacts__:
+1. __Delete Resrouce Group__
