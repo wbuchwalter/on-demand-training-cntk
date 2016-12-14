@@ -26,7 +26,11 @@ We want to be able to start a new training in one click, and once the training i
 1. Clone this repository
 1. [Create a custom VM image](/doc/custom-image.md)
 1. [Set up VSTS](/doc/vsts.md)
-1. [Flow and Ameliorations](/doc/flow.md)
+1. [Flow](/doc/flow.md)
+
+
+__Possible Ameliorations__:  
+* Build definitions could be triggered automatically whenever a change is detected on the model (as opposed to application code, documentation etc) using git.
 
 
 
