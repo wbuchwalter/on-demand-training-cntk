@@ -88,3 +88,7 @@ That should display some information on your GPU from inside a docker container
 
 ### Cleaning up  
 You can now delete everything in your original resource group that was used to capture the VM **except** the storage account, since that's where the VHD is stored.
+
+### Creating a new container
+We will need an Azure Blob storage container to store the outputs from the trainings (metrics, model checkpoint etc.), you can simply create a new container in the same storage account as your VM VHD.  
+
