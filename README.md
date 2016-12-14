@@ -26,6 +26,7 @@ We want to be able to start a new training in one click, and once the training i
 1. Clone this repository
 1. [Create a custom VM image](/doc/custom-image.md)
 1. [Set up VSTS](/doc/vsts.md)
+1. [Flow and Ameliorations](/doc/flow.md)
 
 
 
