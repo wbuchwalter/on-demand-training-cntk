@@ -65,7 +65,5 @@ Create a new *Azure Resource Group Deployment* step.
 
 
 Finally, click on `Queue new build`.  
-The build should take around 20 minutes to complete, you should then be able to see the result from the `artifact` tab of the build:
+The build should take around 20 minutes to complete, you should then be able to see the result from the `artifact` tab of the build:  
 ![](/doc/images/05.png)
-Finally, click on `Queue new build`.
-Finally, click on `Queue new build`.
