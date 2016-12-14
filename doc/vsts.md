@@ -20,9 +20,36 @@ Click on `Builds & Release > Builds > + New`
 Here is what the build definition will look like:  
 ![](/doc/images/04.png)
 
-1. __Provision and Train__:   
+### Provision and Train    
+
 In this step we want to create a new resource group based on our ARM template and captured VM image. The ARM template contains a custom extension which will call our [extension.sh script](https://github.com/wbuchwalter/on-demand-training-cntk/blob/master/env/extension.sh). This script will install some dependencies, build a docker image, train our model, and upload the result to azure blob storage.
 Create a new step *Azure Resource Group Deployment*. Set `Training-$(Build.BuildId)` as resrouce group name, this will allow to have multiple training in parallel. Choose a location with access to N-Series (South Central US for example). The template should be `env/template.json`, and override the template parameters with `-buildId $(Build.BuildId)`.
-1. __Download Artifacts__:
+
+
+### Download Artifacts   
+
+Next we want to download and publish our build artifacts inside VSTS, that way we can easily find the results of every training that occured without having to dig in our Azure Blob Storage container.  
+Create a `Powershell` step to download the artifacts.  
+Arguments: `-buildId $(Build.BuildId)`
+Script: 
+```Powershell
+Param(
+ [string]$buildId
+)
+
+$baseUri = "https://gpuvmtemplatedisks530.blob.core.windows.net/output/"
+$files = "model", "metrics.txt" , "model.ckp" 
+
+New-Item -ItemType directory -Path .\out
+
+Foreach($f in $files){
+    $fileName = $baseUri + $buildId + "-" + $f
+    $outFile = ".\out\" + $f 
+   
+    Invoke-WebRequest -Uri $fileName -OutFile $outFile
+}
+```
+
+3
 1. __Publish Artifacts__:
 1. __Delete Resrouce Group__
