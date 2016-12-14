@@ -17,4 +17,5 @@ Click on `Builds & Release > Builds > + New`
 1. Don't check Continuous Integration (unless you are rich and want to spin up a GPU VM every time there is new commit)
 1. If your repository is hosted on Github, go to the *Repository* tab, grand acces to your Github account, and choose your repository. If your code is hosted on VSTS you shouldn't need to change anything.
 
-Let's create our build definition in the *Build* tab:
+Here is what the build definition will look like:
+![](/doc/images/04.png)
