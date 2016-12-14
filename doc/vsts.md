@@ -28,16 +28,16 @@ Create a new step *Azure Resource Group Deployment*. Set `Training-$(Build.Build
 
 ### Download Artifacts   
 
-Next we want to download and publish our build artifacts inside VSTS, that way we can easily find the results of every training that occured without having to dig in our Azure Blob Storage container.  
-Create a `Powershell` step to download the artifacts.  
-Arguments: `-buildId $(Build.BuildId)`
-Script: 
+Next we want to download and publish our build artifacts (the result of our training) inside VSTS, that way we can easily find the results of every training that occured without having to dig in our Azure Blob Storage container.  
+Create a *Powershell* step to download the artifacts.  
+*Arguments*: `-buildId $(Build.BuildId)`  
+*Script*: 
 ```Powershell
 Param(
  [string]$buildId
 )
 
-$baseUri = "https://gpuvmtemplatedisks530.blob.core.windows.net/output/"
+$baseUri = "https://<your storage account>.blob.core.windows.net/output/"
 $files = "model", "metrics.txt" , "model.ckp" 
 
 New-Item -ItemType directory -Path .\out
@@ -50,6 +50,15 @@ Foreach($f in $files){
 }
 ```
 
-3
-1. __Publish Artifacts__:
-1. __Delete Resrouce Group__
+### Publish Artifacts  
+Add a *Copy and Publish Build Artifacts* step.  
+*Copy Root*: `out`  
+*Contents*: `*`  
+*Artifact Name*: `drop`  
+*Type*: `Server`  
+
+### Delete Resrouce Group  
+We want to automatically delete our resource group once the training is done.  
+Create a new *Azure Resource Group Deployment* step.  
+*Action*: `Delete Resource Group`  
+*Resource Group*: `Training-$(Build.BuildId)`
