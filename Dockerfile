@@ -11,5 +11,6 @@ ADD entry.sh /code/
 RUN chmod +x /code/entry.sh
 
 EXPOSE 80
+WORKDIR /code
 
 ENTRYPOINT ["/code/entry.sh"]

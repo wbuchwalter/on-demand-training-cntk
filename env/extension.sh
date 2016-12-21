@@ -15,7 +15,7 @@ cd /home/agent
 git clone https://github.com/wbuchwalter/on-demand-training-vsts
 cd on-demand-training-vsts
 
-sudo docker build -f Dockerfile.train -t cntk-mnist .
+sudo docker build -t cntk-mnist .
 
 #Run the training, the parameter we pass is coming from the ARM template and is the BuildId
-sudo nvidia-docker run cntk-mnist $1
+sudo nvidia-docker run cntk-mnist train $1

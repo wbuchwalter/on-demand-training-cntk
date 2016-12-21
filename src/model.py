@@ -1,43 +1,92 @@
-import cntk
-from cntk.initializer import glorot_uniform
-from cntk.ops import *
-
 import hyperparameters as hp
+from cntk import *
+from cntk.layers import *
+from cntk.ops import *
+from cntk.learner import sgd
+from cntk.utils import get_train_eval_criterion, get_train_loss
+from cntk.initializer import glorot_uniform
 
-
-# Define a fully connected feedforward network
-def linear_layer(input_var, output_dim):
-    input_dim = input_var.shape[0]
-    times_param = parameter(shape=(input_dim, output_dim), init=glorot_uniform())
-    bias_param = parameter(shape=(output_dim))
-
-    t = times(input_var, times_param)
-    return bias_param + t
-
-def dense_layer(input, output_dim, nonlinearity):
-    r = linear_layer(input, output_dim)
-    r = nonlinearity(r)
-    return r
-
-def fully_connected_classifier_net(input, num_output_classes, hidden_layer_dim, 
-                                   num_hidden_layers, nonlinearity):
+class Model:
+    def __init__(self):
+        self.model, self.trainer, self.loss = self._create()
     
-    h = dense_layer(input, hidden_layer_dim, nonlinearity)
-    for i in range(1, num_hidden_layers):
-        h = dense_layer(h, hidden_layer_dim, nonlinearity)
-    r = linear_layer(h, num_output_classes)
-    return r
+    def _create(self):
+        feature = input_variable((hp.input_dim), np.float32)
+        label = input_variable((hp.num_output_classes), np.float32)
 
-def get(input):
-    # Scale the input to 0-1 range by dividing each pixel by 256.
-    scaled_input = element_times(constant(1.0 / 256.0), input)
-    # Create the fully connected classifier.
-    z = fully_connected_classifier_net(scaled_input, hp.num_output_classes, hp.hidden_layers_dim, hp.num_hidden_layers, relu)
-    return z
+        w1 = parameter(shape=(hp.input_dim, hp.hidden_layer_size), init=glorot_uniform())
+        b1 = parameter(shape=(hp.hidden_layer_size))
+        h1 = relu(times(feature, w1) + b1)
 
-def predict(model, inputData):
-    input = input_variable((hp.input_dim), np.float32)
-    prediction = model.eval({input: inputData})
-    return prediction
+        w2 = parameter(shape=(hp.hidden_layer_size, hp.num_output_classes), init=glorot_uniform())
+        b2 = parameter(shape=(hp.num_output_classes))
+        h2 = times(h1, w2) + b2
 
+        self.model = h2
+        
+        loss = cross_entropy_with_softmax(model, label)
+        label_error = classification_error(model, label)
+
+        lr_schedule = learning_rate_schedule(hp.learning_rate, UnitType.minibatch)
+        learner = sgd(model.parameters, lr_schedule)
+
+        return self.model, Trainer(model, loss, label_error, [learner]), loss
     
+    def predict(self, s):
+        return self.model.eval(s)
+
+    def train(self, mb_source):
+        # Initialize the parameters for the trainer
+        minibatch_size = 64
+        num_samples_per_sweep = 60000
+        num_sweeps_to_train_with = 10
+        num_minibatches_to_train = (num_samples_per_sweep * num_sweeps_to_train_with) / minibatch_size
+
+        # Run the trainer on and perform model training
+        training_progress_output_freq = 500
+
+        plotdata = {"batchsize":[], "loss":[], "error":[]}
+
+        feature_stream_name = 'features'
+        labels_stream_name = 'labels'
+        features_si = mb_source[feature_stream_name]
+        labels_si = mb_source[labels_stream_name]
+
+        for i in range(0, int(num_minibatches_to_train)):
+            mb = mb_source.next_minibatch(minibatch_size)
+            
+            # Specify the input variables mapping in the model to actual minibatch data to be trained
+            arguments = dict(zip(self.loss.arguments, [mb[features_si], mb[labels_si]]))
+            
+            self.trainer.train_minibatch(arguments)
+            batchsize, loss, error = self.print_training_progress(i, training_progress_output_freq)
+            
+            if not (loss == "NA" or error =="NA"):
+                plotdata["batchsize"].append(batchsize)
+                plotdata["loss"].append(loss)
+                plotdata["error"].append(error)
+
+    def print_training_progress(self, idx, frequency, verbose=1):
+        training_loss = "NA"
+        eval_error = "NA"
+
+        if idx%frequency == 0:
+            training_loss = get_train_loss(self.trainer)
+            eval_error = get_train_eval_criterion(self.trainer)
+            if verbose: 
+                print ("Minibatch: {0}, Loss: {1:.4f}, Error: {2:.2f}%".format(idx, training_loss, eval_error*100))
+            
+        return idx, training_loss, eval_error
+    
+    def save_metrics(self, filename):
+        dir = os.path.dirname(filename)
+        if not os.path.exists(dir):
+            os.makedirs(dir)
+
+        training_loss = get_train_loss(self.trainer)
+        eval_error = get_train_eval_criterion(self.trainer)
+        f = open(filename, 'w')
+        f.write("Loss: {0:.4f}, Error: {1:.2f}%".format(training_loss, eval_error*100))
+
+    def save_checkpoint(self, filename):
+        self.trainer.save_checkpoint(filename)
