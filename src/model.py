@@ -24,13 +24,13 @@ class Model:
 
         self.model = h2
         
-        loss = cross_entropy_with_softmax(model, label)
-        label_error = classification_error(model, label)
+        loss = cross_entropy_with_softmax(self.model, label)
+        label_error = classification_error(self.model, label)
 
         lr_schedule = learning_rate_schedule(hp.learning_rate, UnitType.minibatch)
-        learner = sgd(model.parameters, lr_schedule)
+        learner = sgd(self.model.parameters, lr_schedule)
 
-        return self.model, Trainer(model, loss, label_error, [learner]), loss
+        return self.model, Trainer(self.model, loss, label_error, [learner]), loss
     
     def predict(self, s):
         return self.model.eval(s)
